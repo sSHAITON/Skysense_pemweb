@@ -9,11 +9,8 @@ use App\Http\Controllers\WardrobeController;
 use App\Http\Controllers\SettingsController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/livedata', [WeatherController::class, 'index'])->name('weather');
-Route::get('/wardrobe', [WardrobeController::class, 'index'])->name('wardrobe');
+Route::get('/public-weather-data', [HomeController::class, 'getPublicWeatherData'])->name('public.weather.data');
 Route::get('/blog', [BlogController::class, 'index'])->name('blog');
-Route::get('/weather/data', [WeatherController::class, 'getData'])->name('weather.data');
-Route::get('/weather/history', [WeatherController::class, 'getHistoricalData'])->name('weather.history');
 
 // Authentication Routes
 Route::middleware('guest')->group(function () {
@@ -24,6 +21,11 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
+  Route::get('/livedata', [WeatherController::class, 'index'])->name('weather');
+  Route::get('/wardrobe', [WardrobeController::class, 'index'])->name('wardrobe');
+  Route::get('/weather/data', [WeatherController::class, 'getData'])->name('weather.data');
+  Route::get('/weather/history', [WeatherController::class, 'getHistoricalData'])->name('weather.history');
+  Route::get('/wardrobe/recommendations', [WardrobeController::class, 'getRecommendations'])->name('wardrobe.recommendations');
   Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
   Route::get('/settings', [SettingsController::class, 'index'])->name('settings.profile');
   Route::post('/settings/profile', [SettingsController::class, 'updateProfile'])->name('settings.profile.update');

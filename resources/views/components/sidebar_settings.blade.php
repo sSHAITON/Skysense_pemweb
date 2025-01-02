@@ -24,7 +24,7 @@
         </div>
         <nav :class="{ 'block': open, 'hidden': !open }"
             class="flex-grow md:block px-4 pb-4 md:pb-0 md:overflow-y-auto">
-            <a class="flex items-center px-4 py-2 mt-2 text-sm font-semibold text-gray-900 bg-neutral-600/30 rounded-lg hover:bg-neutral-600/30"
+            <a class="flex items-center px-4 py-2 mt-2 text-sm font-semibold text-gray-900 rounded-lg hover:bg-neutral-600/30 {{ request()->routeIs('settings.profile') ? 'bg-neutral-600/30' : 'bg-transparent' }}"
                 href="{{ route('settings.profile') }}">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="w-5 h-5">
@@ -34,7 +34,7 @@
                 <span class="ml-2">User Profile</span>
             </a>
 
-            <a class="flex items-center px-4 py-2 mt-2 text-sm font-semibold text-gray-900 bg-transparent rounded-lg hover:bg-neutral-600/30"
+            <a class="flex items-center px-4 py-2 mt-2 text-sm font-semibold text-gray-900 rounded-lg hover:bg-neutral-600/30 {{ request()->routeIs('settings.wardrobe') ? 'bg-neutral-600/30' : 'bg-transparent' }}"
                 href="{{ route('settings.wardrobe') }}">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="w-5 h-5">
@@ -44,7 +44,7 @@
                 <span class="ml-2">My Wardrobe</span>
             </a>
 
-            <a class="flex items-center px-4 py-2 mt-2 text-sm font-semibold text-gray-900 bg-transparent rounded-lg hover:bg-neutral-600/30"
+            <a class="flex items-center px-4 py-2 mt-2 text-sm font-semibold text-gray-900 rounded-lg hover:bg-neutral-600/30 {{ request()->routeIs('settings.device') ? 'bg-neutral-600/30' : 'bg-transparent' }}"
                 href="{{ route('settings.device') }}">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="w-5 h-5">

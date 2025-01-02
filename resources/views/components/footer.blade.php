@@ -97,7 +97,7 @@
         <hr class="mt-[1.875rem] text-white" />
         <div class="flex items-center justify-center pb-8 pt-[0.5625rem] md:py-8">
             <p class="text-[0.625rem] font-normal text-white md:text-[0.75rem]">
-                © Copyright 2024, All Rights Reserved by SkySense
+                © Copyright 2025, All Rights Reserved by SkySense
             </p>
         </div>
     </div>

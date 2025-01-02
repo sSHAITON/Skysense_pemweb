@@ -1,5 +1,19 @@
 <div class="relative z-50 mx-auto px-4 mt-8 mb-20">
     <h2 class="text-2xl font-bold text-center mb-8">Historical Data</h2>
+
+    <div class="flex justify-center mb-6">
+        <input type="date" id="dateSelector"
+            class="bg-white border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value="{{ date('Y-m-d') }}">
+    </div>
+
+    <!-- Updated error message div to match livedata styling -->
+    <div id="chartError"
+        class="hidden w-full md:w-[400px] p-4 rounded-lg bg-red-100 text-red-700 text-center mx-auto mb-4">
+        <i class="fas fa-exclamation-circle mr-2"></i>
+        <span class="alert-message"></span>
+    </div>
+
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-6xl mx-auto">
         <div class="bg-blue-200 rounded-lg p-4 shadow-lg">
             <canvas id="humidityChart"></canvas>
@@ -87,10 +101,22 @@
     }
 
     function updateCharts() {
+        const selectedDate = $('#dateSelector').val();
+        $('#chartError').addClass('hidden').find('.alert-message').text('');
+
         $.ajax({
             url: '{{ route('weather.history') }}',
             method: 'GET',
+            data: {
+                date: selectedDate
+            },
             success: function(data) {
+                if (!data.labels || data.labels.length === 0) {
+                    $('#chartError').removeClass('hidden').find('.alert-message')
+                        .text('No data available for selected date');
+                    return;
+                }
+
                 if (!charts.humidityChart) {
                     // Initialize charts if they don't exist
                     createChart('humidityChart', 'Humidity %', [], 'rgba(54, 162, 235, 1)');
@@ -100,6 +126,13 @@
                     createChart('rainChart', 'Rain Intensity mm', [], 'rgba(153, 102, 255, 1)');
                     createChart('uvChart', 'UV Index', [], 'rgba(255, 206, 86, 1)');
                 }
+
+                // Clear previous data
+                Object.keys(charts).forEach(chartId => {
+                    const chart = charts[chartId];
+                    chart.data.labels = [];
+                    chart.data.datasets[0].data = [];
+                });
 
                 // Update all charts with new data
                 Object.keys(charts).forEach(chartId => {
@@ -126,18 +159,21 @@
                             chart.data.datasets[0].data = data.uv_index;
                             break;
                     }
-                    chart.update();
+                    chart.update('none'); // Use 'none' for better performance
                 });
             },
             error: function(xhr, status, error) {
-                console.error('Error fetching historical data:', error);
+                $('#chartError').removeClass('hidden').find('.alert-message')
+                    .text(xhr.responseJSON?.error || 'Error loading data');
             }
         });
     }
 
-    // Update charts initially and every minute
     $(document).ready(function() {
         updateCharts();
+        $('#dateSelector').change(function() {
+            updateCharts();
+        });
         setInterval(updateCharts, 60000); // Update every minute
     });
 </script>

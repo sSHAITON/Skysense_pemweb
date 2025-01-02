@@ -108,17 +108,17 @@
                 <div class="bg-white rounded-lg shadow p-6">
                     <h3 class="text-lg font-semibold text-gray-900">Current Conditions</h3>
                     <p class="text-sm text-gray-600">Location: <span class="font-semibold">Bandung</span></p>
-                    <div class="mt-4 flex justify-center gap-8">
+                    <div class="mt-4 flex justify-center gap-8" x-data="weatherData()">
                         <div class="text-center">
-                            <p class="text-2xl font-bold text-gray-900">28°C</p>
+                            <p class="text-2xl font-bold text-gray-900" x-text="temperature + '°C'">--</p>
                             <p class="text-sm text-gray-600">Temperature</p>
                         </div>
                         <div class="text-center">
-                            <p class="text-2xl font-bold text-gray-900">75%</p>
+                            <p class="text-2xl font-bold text-gray-900" x-text="humidity + '%'">--</p>
                             <p class="text-sm text-gray-600">Humidity</p>
                         </div>
                         <div class="text-center">
-                            <p class="text-2xl font-bold text-gray-900">15 km/h</p>
+                            <p class="text-2xl font-bold text-gray-900" x-text="windSpeed + ' km/h'">--</p>
                             <p class="text-sm text-gray-600">Wind Speed</p>
                         </div>
                     </div>
@@ -126,6 +126,34 @@
             </div>
         </div>
     </section>
+
+    <script>
+        function weatherData() {
+            return {
+                temperature: '--',
+                humidity: '--',
+                windSpeed: '--',
+                init() {
+                    this.fetchWeatherData();
+                    setInterval(() => this.fetchWeatherData(), 30000);
+                },
+                async fetchWeatherData() {
+                    try {
+                        const response = await fetch('/public-weather-data');
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        const data = await response.json();
+                        this.temperature = data.temperature;
+                        this.humidity = data.humidity;
+                        this.windSpeed = data.wind_speed;
+                    } catch (error) {
+                        console.error('Error fetching weather data:', error);
+                    }
+                }
+            }
+        }
+    </script>
 
     {{-- About Project --}}
     <section class="bg-gradient-to-b from-green-100 to-white py-12">

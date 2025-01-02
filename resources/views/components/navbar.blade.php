@@ -26,16 +26,18 @@
                     <a href="/blog" class="text-base font-normal text-neutral-500 list-none hover:text-neutral-900"
                         target="">Blog</a>
                 </li>
-                <li>
-                    <a href="/livedata" class="text-base font-normal text-neutral-500 list-none hover:text-neutral-900"
-                        target="">Live Data
-                    </a>
-                </li>
-                <li>
-                    <a href="/wardrobe"
-                        class="text-base font-normal text-neutral-500 list-none hover:text-neutral-900">Wardrobe
-                    </a>
-                </li>
+                @auth
+                    <li>
+                        <a href="/livedata" class="text-base font-normal text-neutral-500 list-none hover:text-neutral-900"
+                            target="">Live Data
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/wardrobe"
+                            class="text-base font-normal text-neutral-500 list-none hover:text-neutral-900">Wardrobe
+                        </a>
+                    </li>
+                @endauth
             </div>
             <div class="hidden md:absolute md:flex md:items-center md:justify-end md:inset-y-0 md:right-0">
                 <div class="inline-flex rounded-full shadow">
@@ -85,15 +87,19 @@
                     <a href="/blog"
                         class="block px-4 py-2 text-base font-normal text-neutral-500 hover:bg-blue-50 hover:text-neutral-900 transition-colors duration-150">Blog</a>
                 </li>
-                <li>
-                    <a href="/livedata"
-                        class="block px-4 py-2 text-base font-normal text-neutral-500 hover:bg-blue-50 hover:text-neutral-900 transition-colors duration-150">Live
-                        Data</a>
-                </li>
-                <li>
-                    <a href="/wardrobe"
-                        class="block px-4 py-2 text-base font-normal text-neutral-500 hover:bg-blue-50 hover:text-neutral-900 transition-colors duration-150">Wardrobe</a>
-                </li>
+
+                @auth
+                    <li>
+                        <a href="/livedata"
+                            class="block px-4 py-2 text-base font-normal text-neutral-500 hover:bg-blue-50 hover:text-neutral-900 transition-colors duration-150">Live
+                            Data</a>
+                    </li>
+                    <li>
+                        <a href="/wardrobe"
+                            class="block px-4 py-2 text-base font-normal text-neutral-500 hover:bg-blue-50 hover:text-neutral-900 transition-colors duration-150">Wardrobe</a>
+                    </li>
+                @endauth
+
                 @guest
                     <li>
                         <a href="/signin"

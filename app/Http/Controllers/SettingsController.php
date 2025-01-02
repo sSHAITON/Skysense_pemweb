@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use App\Models\User;
 
 class SettingsController extends Controller
 {
@@ -143,6 +144,7 @@ class SettingsController extends Controller
         ]);
 
         $validated['user_id'] = Auth::id();
+        $validated['is_connected'] = false;
         Auth::user()->devices()->create($validated);
 
         return back()->with('success', 'Device added successfully!');

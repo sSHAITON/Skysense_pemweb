@@ -120,9 +120,9 @@
 
 <script>
     // Add this import at the top of the script
-    const {
-        GoogleAuthProvider
-    } = window.firebase.auth;
+    // const {
+    //     GoogleAuthProvider
+    // } = window.firebase.auth;
 
     async function signIn(e) {
         e.preventDefault();
