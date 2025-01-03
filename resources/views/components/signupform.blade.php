@@ -155,63 +155,6 @@
 </div>
 
 <script>
-    // Add this import at the top of the script
-    const {
-        GoogleAuthProvider
-    } = window.firebase.auth;
-
-    async function signUp(e) {
-        e.preventDefault();
-        const form = document.querySelector('form');
-        const formData = new FormData(form);
-
-        try {
-            const response = await fetch(form.action, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'Accept': 'application/json'
-                }
-            });
-
-            if (response.ok) {
-                // Show success modal using Alpine.js
-                Alpine.data('signup-form').showModal = true;
-
-                // Redirect after delay
-                setTimeout(() => {
-                    window.location.href = '/';
-                }, 2000);
-            }
-        } catch (error) {
-            alert(error.message);
-        }
-    }
-
-    async function signUpWithGoogle() {
-        const provider = new GoogleAuthProvider();
-        try {
-            const result = await window.auth.signInWithPopup(provider);
-            const token = await result.user.getIdToken();
-
-            // Send token to your Laravel backend
-            await fetch('/api/auth/verify-token', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
-                },
-                body: JSON.stringify({
-                    token
-                })
-            });
-
-            window.location.href = '/';
-        } catch (error) {
-            alert(error.message);
-        }
-    }
-
     function handleSubmit(e) {
         const form = e.target;
         const formData = new FormData(form);
@@ -220,21 +163,23 @@
                 method: 'POST',
                 body: formData,
                 headers: {
-                    'Accept': 'application/json'
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
                 }
             })
-            .then(response => {
-                if (response.ok) {
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
                     this.showModal = true;
                     setTimeout(() => {
-                        window.location.href = '/';
+                        window.location.href = data.redirect;
                     }, 2000);
                 } else {
-                    throw new Error('Registration failed');
+                    throw new Error(data.message);
                 }
             })
             .catch(error => {
-                alert(error.message);
+                alert(error.message || 'Registration failed. Please try again.');
             });
     }
 </script>

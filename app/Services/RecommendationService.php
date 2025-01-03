@@ -58,7 +58,7 @@ class RecommendationService
       }
 
 
-      if (str_contains($weatherConditionLower, 'sunny')) {
+      if (str_contains($weatherConditionLower, 'clear')) {
         $recommendations['cap'] = ['baseball'];
       }
 

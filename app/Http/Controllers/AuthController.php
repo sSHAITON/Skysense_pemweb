@@ -34,6 +34,15 @@ class AuthController extends Controller
 
     if (Auth::attempt($credentials)) {
       $request->session()->regenerate();
+
+      if (Auth::user()->is_admin == 1) {
+        return response()->json([
+          'success' => true,
+          'message' => 'Login successful',
+          'redirect' => '/admin/dashboard'
+        ]);
+      }
+
       return response()->json([
         'success' => true,
         'message' => 'Login successful',
@@ -49,24 +58,36 @@ class AuthController extends Controller
 
   public function register(Request $request)
   {
-    $validated = $request->validate([
-      'name' => 'required|string|max:255',
-      'email' => 'required|string|email|max:255|unique:users',
-      'password' => 'required|string|min:8|confirmed',
-      'phone_number' => 'required|string|max:20',
-      'location' => 'required|string|max:255',
-    ]);
+    try {
+      $validated = $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255|unique:users',
+        'password' => 'required|string|min:8|confirmed',
+        'phone_number' => 'required|string|max:20',
+        'location' => 'required|string|max:255',
+      ]);
 
-    $user = User::create([
-      'name' => $validated['name'],
-      'email' => $validated['email'],
-      'password' => Hash::make($validated['password']),
-      'phone_number' => $validated['phone_number'],
-      'location' => $validated['location'],
-    ]);
+      $user = User::create([
+        'name' => $validated['name'],
+        'email' => $validated['email'],
+        'password' => Hash::make($validated['password']),
+        'phone_number' => $validated['phone_number'],
+        'location' => $validated['location'],
+      ]);
 
-    Auth::login($user);
-    return redirect('/');
+      Auth::login($user);
+
+      return response()->json([
+        'success' => true,
+        'message' => 'Registration successful',
+        'redirect' => '/'
+      ]);
+    } catch (\Exception $e) {
+      return response()->json([
+        'success' => false,
+        'message' => $e->getMessage()
+      ], 422);
+    }
   }
 
   public function logout(Request $request)

@@ -1,4 +1,4 @@
-<div class="flex min-h-full flex-col justify-center sm:px-6 lg:px-8" id="login-form" x-data="{ showModal: false, errorMessage: '' }">
+<div class="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8" id="login-form" x-data="{ showModal: false, errorMessage: '' }">
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
         <a href="/"> <img class="mx-auto h-40 w-auto" src="{{ asset('img/logoskysense.png') }}" alt="SkySense">
         </a>
@@ -89,10 +89,7 @@
     </div>
 
     <!-- Success Modal -->
-    <div x-show="showModal" x-cloak x-transition:enter="transition ease-out duration-300"
-        x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
-        x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100"
-        x-transition:leave-end="opacity-0" class="fixed inset-0 z-50 overflow-y-auto" style="display: none;">
+    <div x-show="showModal" x-cloak class="fixed inset-0 z-50 overflow-y-auto">
         <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
             <div class="fixed inset-0 transition-opacity" aria-hidden="true">
                 <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
@@ -103,11 +100,11 @@
                     <div class="sm:flex sm:items-start">
                         <div class="mt-3 text-center sm:mt-0 sm:text-left">
                             <h3 class="text-lg leading-6 font-medium text-gray-900">
-                                Sign in Successful!
+                                Sign In Successful!
                             </h3>
                             <div class="mt-2">
                                 <p class="text-sm text-gray-500">
-                                    Welcome back! You have been successfully signed in.
+                                    Welcome Back! You have successfully signed in.
                                 </p>
                             </div>
                         </div>
@@ -185,23 +182,26 @@
                 body: formData,
                 headers: {
                     'Accept': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
+                    'X-Requested-With': 'XMLHttpRequest'
                 }
             })
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    this.errorMessage = '';
+                    // Show success modal
                     this.showModal = true;
+
+                    // Redirect after delay
                     setTimeout(() => {
-                        window.location.href = '/';
-                    }, 2000);
+                        window.location.href = data.redirect;
+                    }, 1500);
                 } else {
-                    this.errorMessage = data.message || 'Invalid credentials. Please try again.';
+                    alert(data.message);
                 }
             })
             .catch(error => {
-                this.errorMessage = 'An error occurred. Please try again.';
+                console.error('Error:', error);
+                alert('An error occurred during sign in');
             });
     }
 </script>

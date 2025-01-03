@@ -112,7 +112,7 @@
     function getWeatherIcon(condition) {
         // Map weather conditions to Font Awesome icons
         const iconMap = {
-            'Sunny': 'fa-sun',
+            'Clear': 'fa-sun',
             'Cloudy': 'fa-cloud',
             'Light Rain': 'fa-cloud-rain',
             'Moderate Rain': 'fa-cloud-showers-heavy',

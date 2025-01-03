@@ -48,7 +48,6 @@ class SettingsController extends Controller
     {
         $user = Auth::user();
 
-        // Require password verification for any changes
         $request->validate([
             'current_password' => 'required',
         ]);
@@ -58,7 +57,6 @@ class SettingsController extends Controller
                 ->withInput($request->except('current_password', 'new_password', 'new_password_confirmation'));
         }
 
-        // Proceed with other validations if password check passes
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . Auth::id(),
@@ -68,12 +66,10 @@ class SettingsController extends Controller
         ]);
 
         if ($request->hasFile('avatar')) {
-            // Delete old avatar if exists
             if ($user->avatar) {
                 Storage::disk('public')->delete('avatars/' . $user->avatar);
             }
 
-            // Store new avatar with hashed name
             $file = $request->file('avatar');
             $extension = $file->getClientOriginalExtension();
             $hashedName = Str::random(40) . '_' . time() . '.' . $extension;
@@ -82,10 +78,8 @@ class SettingsController extends Controller
             $validated['avatar'] = $hashedName;
         }
 
-        // Update basic info
         $user->update($validated);
 
-        // Handle new password update if provided
         if ($request->filled('new_password')) {
             $request->validate([
                 'new_password' => 'required|min:8|confirmed',
@@ -126,7 +120,6 @@ class SettingsController extends Controller
             return back()->with('error', 'Unauthorized action.');
         }
 
-        // Delete the image file
         if ($clothe->image_path) {
             Storage::disk('public')->delete($clothe->image_path);
         }
