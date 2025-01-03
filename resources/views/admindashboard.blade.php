@@ -14,7 +14,9 @@
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300">
     <style>
-        [x-cloak] { display: none !important; }
+        [x-cloak] {
+            display: none !important;
+        }
     </style>
 </head>
 
@@ -31,6 +33,8 @@
                         <x-admindevicemanagement :devices="$devices" />
                     @elseif ($component === 'admindashboard')
                         <x-admindashboard :userCount="$userCount" :deviceCount="$deviceCount" />
+                    @elseif ($component === 'adminmanageblog')
+                        <x-adminmanageblog :posts="$posts" />
                     @endif
                 </main>
             </div>

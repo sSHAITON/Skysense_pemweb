@@ -11,7 +11,9 @@ use App\Http\Controllers\AdmindashboardController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/public-weather-data', [HomeController::class, 'getPublicWeatherData'])->name('public.weather.data');
+
 Route::get('/blog', [BlogController::class, 'index'])->name('blog');
+Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blog.show');
 
 // Authentication Routes
 Route::middleware('guest')->group(function () {
@@ -49,4 +51,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
   Route::post('/users', [AdmindashboardController::class, 'storeUser'])->name('admin.users.store');
   Route::post('/devices', [AdmindashboardController::class, 'storeDevice'])->name('admin.devices.store');
   Route::delete('/devices/{device}', [AdmindashboardController::class, 'destroyDevice'])->name('admin.devices.delete');
+  Route::get('/blogs', [AdmindashboardController::class, 'blogs'])->name('admin.blogs');
+  Route::post('/blogs', [AdmindashboardController::class, 'storeBlog'])->name('admin.blogs.store');
+  Route::patch('/blogs/{post}', [AdmindashboardController::class, 'updateBlog'])->name('admin.blogs.update');
+  Route::delete('/blogs/{post}', [AdmindashboardController::class, 'destroyBlog'])->name('admin.blogs.delete');
+  Route::patch('/blogs/{post}/toggle', [AdmindashboardController::class, 'togglePublish'])->name('admin.blogs.toggle');
+  Route::get('/blogs/{post}', [AdmindashboardController::class, 'getBlog'])->name('admin.blogs.get');
 });

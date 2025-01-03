@@ -50,8 +50,8 @@
                 <span class="ml-2">Device Management</span>
             </a>
 
-            <a class="flex items-center px-4 py-2 mt-2 text-sm font-semibold text-gray-900 rounded-lg hover:bg-neutral-600/30 {{ request()->routeIs('admin.blog') ? 'bg-neutral-600/30' : 'bg-transparent' }}"
-                href="#">
+            <a class="flex items-center px-4 py-2 mt-2 text-sm font-semibold text-gray-900 rounded-lg hover:bg-neutral-600/30 {{ request()->routeIs('admin.blogs') ? 'bg-neutral-600/30' : 'bg-transparent' }}"
+                href="{{ route('admin.blogs') }}">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="w-5 h-5">
                     <path stroke-linecap="round" stroke-linejoin="round"

@@ -75,7 +75,7 @@
                 </div>
             </div>
         </nav>
-        <div x-show="open" x-transition:enter="transition ease-out duration-200"
+        <div x-show="open" x-cloak x-transition:enter="transition ease-out duration-200"
             x-transition:enter-start="opacity-0 transform scale-90"
             x-transition:enter-end="opacity-100 transform scale-100"
             x-transition:leave="transition ease-in duration-100"
