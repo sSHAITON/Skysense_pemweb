@@ -14,11 +14,13 @@ class AdmindashboardController extends Controller
     {
         $userCount = User::count();
         $deviceCount = UserDevice::count();
+        $posts = Post::count();
 
         return view('admindashboard', [
             'component' => 'admindashboard',
             'userCount' => $userCount,
             'deviceCount' => $deviceCount,
+            'postsCount' => $posts
         ]);
     }
 
@@ -192,6 +194,9 @@ class AdmindashboardController extends Controller
                 'is_published' => 'required|boolean'
             ]);
 
+            // Cast is_published to boolean
+            $validated['is_published'] = filter_var($validated['is_published'], FILTER_VALIDATE_BOOLEAN);
+
             $baseSlug = \Str::slug($validated['title']);
             $slug = $baseSlug;
             $counter = 1;
@@ -241,6 +246,7 @@ class AdmindashboardController extends Controller
 
     public function updateBlog(Request $request, Post $post)
     {
+        \DB::beginTransaction();
         try {
             $validated = $request->validate([
                 'title' => 'required|string|max:255',
@@ -249,10 +255,12 @@ class AdmindashboardController extends Controller
                 'is_published' => 'required|boolean'
             ]);
 
+            // Cast is_published to boolean
+            $validated['is_published'] = filter_var($validated['is_published'], FILTER_VALIDATE_BOOLEAN);
+
             $data = [
                 'title' => $validated['title'],
                 'content' => $validated['content'],
-                'slug' => \Str::slug($validated['title']),
                 'is_published' => $validated['is_published']
             ];
 
@@ -266,12 +274,15 @@ class AdmindashboardController extends Controller
             }
 
             $post->update($data);
+            \DB::commit();
 
             return response()->json([
                 'success' => true,
                 'message' => 'Blog post updated successfully!'
             ]);
         } catch (\Exception $e) {
+            \DB::rollBack();
+            \Log::error('Blog update error: ' . $e->getMessage());
             return response()->json([
                 'success' => false,
                 'message' => 'Error updating blog post: ' . $e->getMessage()

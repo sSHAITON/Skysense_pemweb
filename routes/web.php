@@ -38,17 +38,16 @@ Route::middleware('auth')->group(function () {
   Route::get('/settings/device', [SettingsController::class, 'device'])->name('settings.device');
   Route::post('/settings/device/store', [SettingsController::class, 'storeDevice'])->name('settings.device.store');
   Route::delete('/settings/device/{device}', [SettingsController::class, 'destroyDevice'])->name('settings.device.delete');
-  // Add other authenticated routes here
 });
 
 // Admin Routes
 Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
   Route::get('/dashboard', [AdmindashboardController::class, 'index'])->name('admin.dashboard');
   Route::get('/users', [AdmindashboardController::class, 'users'])->name('admin.users');
-  Route::get('/devices', [AdmindashboardController::class, 'devices'])->name('admin.devices');
   Route::patch('/users/{user}', [AdmindashboardController::class, 'updateUser'])->name('admin.users.update');
   Route::delete('/users/{user}', [AdmindashboardController::class, 'destroyUser'])->name('admin.users.delete');
   Route::post('/users', [AdmindashboardController::class, 'storeUser'])->name('admin.users.store');
+  Route::get('/devices', [AdmindashboardController::class, 'devices'])->name('admin.devices');
   Route::post('/devices', [AdmindashboardController::class, 'storeDevice'])->name('admin.devices.store');
   Route::delete('/devices/{device}', [AdmindashboardController::class, 'destroyDevice'])->name('admin.devices.delete');
   Route::get('/blogs', [AdmindashboardController::class, 'blogs'])->name('admin.blogs');

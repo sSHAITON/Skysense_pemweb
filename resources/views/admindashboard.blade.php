@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Admin Dashboard</title>
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('img/logoSkysense.png') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @vite('resources/css/app.css')
     <script src="//unpkg.com/alpinejs" defer></script>
@@ -32,7 +33,7 @@
                     @elseif ($component === 'admindevicemanagement')
                         <x-admindevicemanagement :devices="$devices" />
                     @elseif ($component === 'admindashboard')
-                        <x-admindashboard :userCount="$userCount" :deviceCount="$deviceCount" />
+                        <x-admindashboard :userCount="$userCount" :deviceCount="$deviceCount" :postsCount="$postsCount" />
                     @elseif ($component === 'adminmanageblog')
                         <x-adminmanageblog :posts="$posts" />
                     @endif

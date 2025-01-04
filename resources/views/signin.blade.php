@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $title }}</title>
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('img/logoSkysense.png') }}">
     @vite('resources/css/app.css')
     <script src="//unpkg.com/alpinejs" defer></script>
     <style>

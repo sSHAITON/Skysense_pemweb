@@ -1,4 +1,4 @@
-@props(['userCount', 'deviceCount'])
+@props(['userCount', 'deviceCount', 'postsCount'])
 
 <div class="w-full max-w-7xl mx-auto min-h-[80vh] py-8">
     <div class="bg-white rounded-lg shadow-md my-8 border border-gray-200">
@@ -49,7 +49,7 @@
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-sm font-medium text-purple-600">Total Blog Posts</p>
-                            <h3 class="text-2xl font-bold text-purple-900 mt-2">89</h3>
+                            <h3 class="text-2xl font-bold text-purple-900 mt-2">{{ $postsCount }}</h3>
                         </div>
                         <div class="bg-purple-100 rounded-full p-3">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-600" fill="none"
